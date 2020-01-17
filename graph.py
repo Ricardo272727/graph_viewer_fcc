@@ -1,7 +1,5 @@
-
-
 import fcc
-
+from vertex import Vertex
 """
 Objetivos de aqui a dos semanas
 agregar nodo ia
@@ -30,6 +28,9 @@ class Graph():
         # expandir la matriz de adyacencia
         self.expand_matrix()
 
+        # fila y columna en la matriz de adyacencia
+        v.adj_mat_pos = self.mat_size - 1
+
         for con in conexions:
             if fcc.validate_range(con, range):
                 self.mat_adj[self.mat_size-1][con] = 1
@@ -53,7 +54,7 @@ class Graph():
 
         # eliminar de la lista de vertices 
         for v in self.vertex:
-            if v.id == v_id:
+            if v.adj_mat_pos == v_id:
                 self.vertex.remove(v)
                 break
         
@@ -78,11 +79,31 @@ class Graph():
         for row in self.mat_adj:
                 print(row)
 
+    def show_vertex(self):
+        # muestra la lista de vertices con estilo
+        for v in self.vertex:
+            m = "\nUniversal id -> " + str(v.get_id()) 
+            m += "\nLabel -> " + v.label
+            m += "\nColor -> " + str(v.color) 
+            m += "\nAdyacency matrix position -> " + str(v.adj_mat_pos)         
+            print(m)
+
 def main():
     g = Graph()
-    g.add_vertex(27, [])
-    g.add_vertex(28, [0, 1])
-    g.add_vertex(29, [0,1,2])
+
+    info = {"A": 0xff0000, "B" : 0x4F6CFF, "C": 0xFF5396, "D" : 0xFFFF00,
+    "E": 0xFFFF00 , "F": 0x00FFFF, "G": 0x008080, "H": 0x000080 }
+
+    count = 0
+    for label, color in info.items():
+        # anade un nuevo vertice, y lo conecta a todos los vertices existentes
+        g.add_vertex(Vertex(label=label, color=color), [x for x in range(count)])
+        count += 1
+
+    print("Adj mat: ")
     g.show_adj_matrix()
+
+    print("Vertices: ")
+    g.show_vertex()
 
 main()
