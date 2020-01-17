@@ -2,7 +2,7 @@
 
 Un simple visualizador de grafos para entender sus propiedades básicas por propositos educativos.
 
-# Objectivo
+# Objetivo
 
 _[Fatal error: Couldn't find the "objective.txt" file]_
 
