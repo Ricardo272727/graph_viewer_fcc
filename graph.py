@@ -37,12 +37,18 @@ class Graph():
                 self.mat_adj[con][self.mat_size-1] = 1
         # agregar nuevo vertice a la lista de vertices
         self.vertex.append(v)
-        
+
+    """
+        CAMBIOS REALIZADOS:
+            1. statment "not" agregado en la condicional del rango
+            2. se realiza un decremento del tamanio de la matriz al final del metodo
+            3. agregados comentarios como "posible" solucion al problema de las posiciones de los vertices
+    """    
     def delete_vertex(self, v_id):
         """ Elimina el vertice con el id 
         (posicion en la matriz de adyacencia) : v_id"""
         # wachar si el id esta en rango
-        if fcc.validate_range(v_id, [0, self.mat_size]):
+        if not fcc.validate_range(v_id, [0, self.mat_size]):
             return False
 
         # quitar la columna y fila del vertice en la matriz de adyacencia
@@ -56,8 +62,12 @@ class Graph():
         for v in self.vertex:
             if v.adj_mat_pos == v_id:
                 self.vertex.remove(v)
-                break
-        
+                self.vertex[v_id].adj_mat_pos -= 1      # Decrementa la posicion del vertice "recolocado" para no perderlo
+            if v.adj_mat_pos > v_id:
+                v.adj_mat_pos -= 1     # Decrementa la posicion del vertice. De cierta forma, se "recorren"
+
+        # decrementar el tamanio de la matriz cuadrada super perfecta y espectacularmente brillante
+        self.mat_size -= 1
     
     def expand_matrix(self):
         """
@@ -104,6 +114,23 @@ def main():
     g.show_adj_matrix()
 
     print("Vertices: ")
+    g.show_vertex()
+
+    g.delete_vertex(3)
+    g.delete_vertex(4)
+
+    print("\nMatriz de adyacencia: ")
+    g.show_adj_matrix()
+
+    print("\nVeritces: ")
+    g.show_vertex()
+
+    g.add_vertex(Vertex("\\Lambda", 64), [1,3,5,7])
+
+    print("\nMatriz de adyacencia: ")
+    g.show_adj_matrix()
+
+    print("\nVeritces: ")
     g.show_vertex()
 
 main()
