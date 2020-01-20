@@ -1,5 +1,6 @@
 import fcc
 from vertex import Vertex
+from edge import Edge 
 """
 Objetivos de aqui a dos semanas
 agregar nodo ia
@@ -21,10 +22,8 @@ class Graph():
     """
         CAMBIOS HECHOS EN 19/01/20
         CAMBIOS REALIZADOS (marcados en *):
-            1. Se le agrega un diccionario a la fila, el cual tendra una plantilla de la siguiente forma:
-                edges = {'amount': 1, 'weight': 1}
-            temporalmente la cantidad sera de 1
-            2. Se reemplaza el valor "1" por la variable "edges" para ser ingresada dentro de la matriz de adyacencia
+            1. Se le agrega una variable "Edge" a la matriz en lugar de usar un valor numerico
+            2. Se reemplaza el valor "1" por la variable "edge" para ser ingresada dentro de la matriz de adyacencia
     """
     def add_vertex(self, v, conexions):
         """ anade un vertice 'v' a la lista self.vertex
@@ -41,12 +40,15 @@ class Graph():
 
         """
             ADICION DE RALEX: BORRAR CUANDO SEA ACEPTADO
+            NOTA: Por default agrega una sola conexion a los vertices indicado,
+            de hecho creo que aun tiene sentido ya que en el editor solamente podra
+            conectar los vertices uno a uno
         """
-        edges = {'amount': 1, 'weight': 1}                          # * "edges" variable created
+        edge = Edge(None,1)                                        # * "edge" variable created
         for con in conexions:
             if fcc.validate_range(con, range):
-                self.mat_adj[self.mat_size-1][con] = edges
-                self.mat_adj[con][self.mat_size-1] = edges
+                self.mat_adj[self.mat_size-1][con] = edge
+                self.mat_adj[con][self.mat_size-1] = edge
         # agregar nuevo vertice a la lista de vertices
         self.vertex.append(v)
 
@@ -89,9 +91,8 @@ class Graph():
     """
         CAMBIOS HECHOS EN 19/01/20
         CAMBIOS REALIZADOS (marcados en *):
-            1. Se le agrega un diccionario a la fila, el cual tendra una plantilla de la siguiente forma:
-                edges = {'amount': 0, 'weight': 1}
-            2. Se reemplaza el valor "0" por la variable "edges" para ser ingresada dentro de la matriz de adyacencia
+            1. Se le agrega una variable "Edge" a la fila en lugar de usar un valor numerico
+            2. Se reemplaza el valor "0" por la variable "edge" para ser ingresada dentro de la matriz de adyacencia
     """
     def expand_matrix(self):
         """
@@ -102,11 +103,11 @@ class Graph():
         """
             ADICION DE RALEX: BORRAR CUANDO SEA ACEPTADO
         """
-        edges = {'amount': 0, 'weight': 1}                          # * "edges" variable created
+        edge = Edge(None,0)                                        # * "edge" variable created
         for row in self.mat_adj:
-            row.append(edges)                                       # * "edges" replacing "0" to be appended instead
+            row.append(edge)                                       # * "edge" replacing "0" to be appended instead
         # crea una fila de 0's y la anade al final de la matriz
-        new_row = [edges for x in range(self.mat_size)]             # * "edges" replacing "0" to be appended instead
+        new_row = [edge for x in range(self.mat_size)]             # * "edge" replacing "0" to be appended instead
         self.mat_adj.append(new_row)
 
 
@@ -115,13 +116,10 @@ class Graph():
         hace la mostracion de la matriz
         """
         for row in self.mat_adj:
-            p_row = "| "
-            for item in row:
-                p_row += "(a:" + str(item['amount']) + ", w: " + str(item['weight']) + ") "
-            p_row += "|"
-            print(p_row)
-            
-        # Lo siento xDDD si sabes como imprimirlo mejor pues me dices juasjuas
+            string_row = ''
+            for edge in row:
+                string_row += '[ {} ]'.format(edge.amount)
+            print(string_row)
 
     def show_vertex(self):
         # muestra la lista de vertices con estilo
@@ -164,7 +162,7 @@ def main():
     print("\nMatriz de adyacencia: ")
     g.show_adj_matrix()
 
-    print("\nVeritces: ")
+    print("\nVertices: ")
     g.show_vertex()
 
 main()
