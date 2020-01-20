@@ -1,3 +1,6 @@
+"""
+    POSIBLEMENTE SEA DESECHADO
+"""
 class Edge():
 
     __universal_id = 0
