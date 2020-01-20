@@ -18,6 +18,14 @@ class Graph():
         self.mat_adj = []
         self.mat_size = 0
 
+    """
+        CAMBIOS HECHOS EN 19/01/20
+        CAMBIOS REALIZADOS (marcados en *):
+            1. Se le agrega un diccionario a la fila, el cual tendra una plantilla de la siguiente forma:
+                edges = {'amount': 1, 'weight': 1}
+            temporalmente la cantidad sera de 1
+            2. Se reemplaza el valor "1" por la variable "edges" para ser ingresada dentro de la matriz de adyacencia
+    """
     def add_vertex(self, v, conexions):
         """ anade un vertice 'v' a la lista self.vertex
         y conecta el vertice con los vertices especificados en conexions
@@ -31,54 +39,73 @@ class Graph():
         # fila y columna en la matriz de adyacencia
         v.adj_mat_pos = self.mat_size - 1
 
+        """
+            ADICION DE RALEX: BORRAR CUANDO SEA ACEPTADO
+        """
+        edges = {'amount': 1, 'weight': 1}                          # * "edges" variable created
         for con in conexions:
             if fcc.validate_range(con, range):
-                self.mat_adj[self.mat_size-1][con] = 1
-                self.mat_adj[con][self.mat_size-1] = 1
+                self.mat_adj[self.mat_size-1][con] = edges
+                self.mat_adj[con][self.mat_size-1] = edges
         # agregar nuevo vertice a la lista de vertices
         self.vertex.append(v)
 
     """
         CAMBIOS REALIZADOS:
+        CAMBIOS HECHOS EN 17/01/20
             1. statment "not" agregado en la condicional del rango
             2. se realiza un decremento del tamanio de la matriz al final del metodo
             3. agregados comentarios como "posible" solucion al problema de las posiciones de los vertices
+        
+        CAMBIOS HECHOS EN 19/01/20
+            1. "v_id" reemplazado por "v_pos"
     """    
-    def delete_vertex(self, v_id):
-        """ Elimina el vertice con el id 
-        (posicion en la matriz de adyacencia) : v_id"""
-        # wachar si el id esta en rango
-        if not fcc.validate_range(v_id, [0, self.mat_size]):
+    def delete_vertex(self, v_pos):
+        """ Elimina el vertice con la pos
+        (posicion en la matriz de adyacencia) : v_pos"""
+        # wachar si la pos esta en rango
+        if not fcc.validate_range(v_pos, [0, self.mat_size]):
             return False
 
         # quitar la columna y fila del vertice en la matriz de adyacencia
         for row in self.mat_adj:
             # elimina de la fila el elemento en el indice v_id
-            row.pop(v_id)
+            row.pop(v_pos)
 
-        self.mat_adj.pop(v_id)
+        self.mat_adj.pop(v_pos)
 
         # eliminar de la lista de vertices 
         for v in self.vertex:
-            if v.adj_mat_pos == v_id:
+            if v.adj_mat_pos == v_pos:
                 self.vertex.remove(v)
-                self.vertex[v_id].adj_mat_pos -= 1      # Decrementa la posicion del vertice "recolocado" para no perderlo
-            if v.adj_mat_pos > v_id:
+                self.vertex[v_pos].adj_mat_pos -= 1      # Decrementa la posicion del vertice "recolocado" para no perderlo
+            if v.adj_mat_pos > v_pos:
                 v.adj_mat_pos -= 1     # Decrementa la posicion del vertice. De cierta forma, se "recorren"
 
         # decrementar el tamanio de la matriz cuadrada super perfecta y espectacularmente brillante
         self.mat_size -= 1
     
+    """
+        CAMBIOS HECHOS EN 19/01/20
+        CAMBIOS REALIZADOS (marcados en *):
+            1. Se le agrega un diccionario a la fila, el cual tendra una plantilla de la siguiente forma:
+                edges = {'amount': 0, 'weight': 1}
+            2. Se reemplaza el valor "0" por la variable "edges" para ser ingresada dentro de la matriz de adyacencia
+    """
     def expand_matrix(self):
         """
         expande la matriz de adyacencia una columna y una fila
         """
         self.mat_size += 1
         # anade una columna a la matriz
+        """
+            ADICION DE RALEX: BORRAR CUANDO SEA ACEPTADO
+        """
+        edges = {'amount': 0, 'weight': 1}                          # * "edges" variable created
         for row in self.mat_adj:
-            row.append(0)
+            row.append(edges)                                       # * "edges" replacing "0" to be appended instead
         # crea una fila de 0's y la anade al final de la matriz
-        new_row = [0 for x in range(self.mat_size)]
+        new_row = [edges for x in range(self.mat_size)]             # * "edges" replacing "0" to be appended instead
         self.mat_adj.append(new_row)
 
 
@@ -87,7 +114,8 @@ class Graph():
         hace la mostracion de la matriz
         """
         for row in self.mat_adj:
-                print(row)
+            print(row)
+        # Lo siento xDDD si sabes como imprimirlo mejor pues me dices juasjuas
 
     def show_vertex(self):
         # muestra la lista de vertices con estilo
