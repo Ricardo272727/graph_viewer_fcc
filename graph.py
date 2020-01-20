@@ -115,7 +115,12 @@ class Graph():
         hace la mostracion de la matriz
         """
         for row in self.mat_adj:
-            print(row)
+            p_row = "| "
+            for item in row:
+                p_row += "(a:" + str(item['amount']) + ", w: " + str(item['weight']) + ") "
+            p_row += "|"
+            print(p_row)
+            
         # Lo siento xDDD si sabes como imprimirlo mejor pues me dices juasjuas
 
     def show_vertex(self):
