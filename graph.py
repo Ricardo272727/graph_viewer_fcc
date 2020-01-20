@@ -67,6 +67,7 @@ class Graph():
                 v.adj_mat_pos -= 1     # Decrementa la posicion del vertice. De cierta forma, se "recorren"
 
         # decrementar el tamanio de la matriz cuadrada super perfecta y espectacularmente brillante
+        # el man de arriba se mamut                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         self.mat_size -= 1
     
     def expand_matrix(self):
