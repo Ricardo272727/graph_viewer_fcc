@@ -1,0 +1,14 @@
+{
+    "adj_matrix": [
+        [1,0,1],
+        [1,0,1],
+        [1,0,1]
+    ],
+
+    "vertex":[
+        { "color": "blue", "label": "A", "adj_mat_pos": 0 },
+        { "color": "blue", "label": "B", "adj_mat_pos": 1 },
+        { "color": "blue", "label": "C", "adj_mat_pos": 2 },
+        { "color": "blue", "label": "D", "adj_mat_pos": 3 }
+    ]
+}

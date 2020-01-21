@@ -2,7 +2,7 @@ import fcc
 from vertex import Vertex
 """
 Objetivos de aqui a dos semanas
-agregar nodo ia
+agregar nodo
 eliminar 
 conectar
 mostrar mat

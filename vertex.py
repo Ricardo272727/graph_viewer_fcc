@@ -8,6 +8,7 @@ class Vertex():
         self.color = color
         Vertex.__universal_id += 1
         self.adj_mat_pos = -1
-
+        self.x = 0
+        self.y = 0
     def get_id(self):
         return self.__id
