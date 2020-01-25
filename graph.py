@@ -1,40 +1,44 @@
 import fcc
 from vertex import Vertex
 from edge import Edge 
+from debug_options import write_log 
+import json
+import pickle
+
 """
 Objetivos de aqui a dos semanas
-agregar nodo
-eliminar 
-conectar
-mostrar mat
-crear nuevo arbol/grafo
-arrastrar y crear nodo
+agregar nodo ->yes
+eliminar ->yes
+conectar ->yes
+mostrar mat ->yes
+crear nuevo arbol/grafo ->no
+arrastrar y crear nodo ->no 
 """
 
 class Graph():
     """ Clase grafo con lista de vertices y una matriz
     de adyacencia """
     def __init__(self):
-        self.vertex = []
+        self.vertexes = []
         self.edge = []
         self.mat_adj = []
         self.mat_size = 0
 
     def vertex_by_ID(self, vertex_id):
-        for vertex in vertexes:
+        for vertex in self.vertexes:
             if vertex.get_id() == vertex_id:
                 return vertex
         return None
 
     def vertex_by_position(self, vertex_position):
-        for vertex in vertexes:
-            if vertex.adj_mat_pos == vertex_postition:
+        for vertex in self.vertexes:
+            if vertex.adj_mat_pos == vertex_position:
                 return vertex
         return None
     
     def validate_vertex(self, vertex):
-        for vertex_list in self.vertex:
-            if vertex_list.get_id() == vertex.get_id():
+        for v in self.vertexes:
+            if v.get_id() == vertex.get_id():
                 return False
         return True
 
@@ -56,13 +60,13 @@ class Graph():
 
         # fila y columna en la matriz de adyacencia
         vertex.adj_mat_pos = self.mat_size - 1
-        self.vertex.append(vertex)
+        self.vertexes.append(vertex)
    
     def delete_vertex(self, vertex):
         if self.mat_size <= 0 or vertex is None:
             return False
         
-        if not vertex in self.vertex:
+        if not vertex in self.vertexes:
             return False
         
         # quitar las aristas incidentes al vertice en caso de que exista alguna
@@ -79,10 +83,10 @@ class Graph():
         self.mat_adj.pop(vertex_pos)
 
         # eliminar de la lista de vertices 
-        for matrix_vertex in self.vertex:
+        for matrix_vertex in self.vertexes:
             if matrix_vertex.adj_mat_pos == vertex_pos:
-                self.vertex.remove(matrix_vertex)
-                self.vertex[vertex_pos].adj_mat_pos -= 1      # Decrementa la posicion del vertice "recolocado" para no perderlo
+                self.vertexes.remove(matrix_vertex)
+                self.vertexes[vertex_pos].adj_mat_pos -= 1      # Decrementa la posicion del vertice "recolocado" para no perderlo
             if matrix_vertex.adj_mat_pos > vertex_pos:
                 matrix_vertex.adj_mat_pos -= 1     # Decrementa la posicion del vertice. De cierta forma, se "recorren"
 
@@ -100,7 +104,7 @@ class Graph():
         
         if not self.validate_edge(edge):
             return False
-            
+        
         edge.set_vertexes(vertex_1, vertex_2)
         self.mat_adj[vertex_1.adj_mat_pos][vertex_2.adj_mat_pos].append(edge)
         if vertex_1 != vertex_2:
@@ -138,6 +142,11 @@ class Graph():
         new_row = [[] for x in range(self.mat_size)]                 # *
         self.mat_adj.append(new_row)
 
+    def show(self):
+        print("Adj mat: ")
+        self.show_adj_matrix()
+        self.show_vertex()
+        self.show_edge()
 
     def show_adj_matrix(self):
         """
@@ -150,7 +159,7 @@ class Graph():
             print(string_row)
 
     def show_vertex(self):
-        for v in self.vertex:
+        for v in self.vertexes:
             m = 'Vertex: [ID: {}, Label: {}, Color: {}, Position: {}]'.format(v.get_id(), v.label, v.color, v.adj_mat_pos)
             """
             m = "\nUniversal id -> " + str(v.get_id()) 
@@ -164,6 +173,28 @@ class Graph():
         for e in self.edge:
             m = 'Edge: [ID: {}, Label: {}, Weight: {}]'.format(e.get_id(), e.label, e.weight)
             print(m)
+
+    def save_graph(self, filename):
+        """
+        Guarda este objeto en un archivo binario
+        filename: /ruta/del/archivo/sin/extension/.bin
+        """
+        try:
+            with open(filename + ".bin", 'wb') as file_obj:
+                pickle.dump(self, file_obj)
+                file_obj.close()
+                return True
+        except FileNotFoundError:
+            return False
+
+    def load_graph(self, filename):
+        try:
+            with open(filename + ".bin", 'rb') as file_obj:
+                content = pickle.loads(file_obj.read())
+                return content
+        except FileNotFoundError:
+            write_log("File not found " + filename + ".bin")
+            return None
 
 def main():
     g = Graph()
@@ -200,9 +231,15 @@ def main():
 
     g.delete_vertex(v1)
     
-    print()
+    
     g.show_vertex()
     print("\nMatriz sin el vertice 1")
     g.show_adj_matrix()
+
+    print(g.save_graph("example_file"))
+    n = g.load_graph("example_file")
+    
+    n.show()
+    
 
 main()
