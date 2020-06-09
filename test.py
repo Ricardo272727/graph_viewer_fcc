@@ -1,20 +1,17 @@
-"""from tkinter import *
-from  random import randint
-tk = Tk()
 
-# canvas is an area to draw pictures
-canvas = Canvas(tk, width = 400, height =400)
-canvas.pack()
-r = 20
+import unittest
+from graph import Graph
 
-width = 40
-
-# to draw 10 random circles
-
-
-# x, y , ancho, alto, color, borde-color, ancho-borde
-canvas.create_oval(0, 0, width, width, fill="#008080", outline="red", width=2)
-# start x, end y, end x , end y
-canvas.create_line(15, 25, 2, 200, fill="red")
-
-"""
+class GraphTest(unittest.TestCase):
+    def setUp(self):
+        self.graph = Graph()
+        
+    def test_add(self):
+        self.graph.add_vertex()
+        self.assertEqual(len(self.graph.matrix), 1)
+        self.graph.add_vertex()
+        self.assertEqual(len(self.graph.matrix), 2)
+        self.graph.show()
+        
+if __name__ == '__main__':
+    unittest.main()
