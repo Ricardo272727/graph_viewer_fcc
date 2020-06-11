@@ -1,11 +1,13 @@
 
-import pickle
+import json
 
 
 class Vertex():
-    def __init__(self, value):
+    def __init__(self, value, index, weight=0, label="-"):
+        self.label = label
         self.value = value
-        self.weight = 0
+        self.weight = weight
+        self.index = index
         
 class Graph():
     """ 
@@ -16,8 +18,9 @@ class Graph():
         self.matrix = []
         
     def add_vertex(self, vertex = None):
+        n = len(self.matrix)
         if vertex is None:
-            vertex = Vertex('-')
+            vertex = Vertex(0, n)
             
         self.vertices.append(vertex)
         
@@ -26,48 +29,51 @@ class Graph():
         else:
             for row in self.matrix:
                 row.append(0)
-            new_row = [0 for i in range(len(self.matrix)+1)]
+            new_row = [0 for i in range(n+1)]
             self.matrix.append(new_row)
     
     
-    def add_edge(self):
-        print("Comming soon")
-   
+    def add_edge(self, begin, end):
+        n = len(self.matrix)
+        if begin >= 0 and begin < n and end >= 0 and end < n:
+                self.matrix[begin][end] = 1
+                return True
+        return False
+    
+    def dijsktra(self, v1, v2):
+        print("Implement me!")
     
     def show(self):
         for row in self.matrix:
             print(row)
-        
-
-    def show_adj_matrix(self):
-        """
-        hace la mostracion de la matriz
-        """
-        for row in self.mat_adj:
-            string_row = ''
-            for edges in row:
-                string_row += '[ {} ]'.format(len(edges))
-            print(string_row)
+        print(self.vertices)
 
 
-    def save_graph(self, filename):
-        """
-        Guarda este objeto en un archivo binario
-        filename: /ruta/del/archivo/sin/extension/.bin
-        """
+    def load_graph(self, filename):
         try:
-            with open(filename + ".bin", 'wb') as file_obj:
-                pickle.dump(self, file_obj)
-                file_obj.close()
+            with open(filename, 'r') as file:
+                self.matrix.clear()
+                self.vertices.clear()
+                content = json.load(file)
+                for row in content["matrix"]:
+                    self.matrix.append(row)
+                for v in content["vertices"]:
+                    self.vertices.append(v)
                 return True
         except FileNotFoundError:
             return False
 
-    def load_graph(self, filename):
+    def save_graph(self, filename):
         try:
-            with open(filename + ".bin", 'rb') as file_obj:
-                content = pickle.loads(file_obj.read())
-                return content
+            with open(filename, 'w') as file:
+                content = {}
+                content["matrix"] = self.matrix
+                content["vertices"] = self.vertices
+                content = json.dumps(content, indent=4)
+                file.write(content)
+                file.close()
+                return True
         except FileNotFoundError:
-            return None
+            return False
 
+    

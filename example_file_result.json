@@ -1,0 +1,41 @@
+{
+    "matrix": [
+        [
+            1,
+            0,
+            1
+        ],
+        [
+            1,
+            1,
+            1
+        ],
+        [
+            1,
+            0,
+            1
+        ]
+    ],
+    "vertices": [
+        {
+            "color": "blue",
+            "label": "A",
+            "index": 0
+        },
+        {
+            "color": "blue",
+            "label": "B",
+            "index": 1
+        },
+        {
+            "color": "blue",
+            "label": "C",
+            "index": 2
+        },
+        {
+            "color": "blue",
+            "label": "D",
+            "index": 3
+        }
+    ]
+}
