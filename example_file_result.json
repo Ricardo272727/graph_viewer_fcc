@@ -7,7 +7,7 @@
         ],
         [
             1,
-            1,
+            0,
             1
         ],
         [
@@ -19,23 +19,55 @@
     "vertices": [
         {
             "color": "blue",
-            "label": "A",
+            "value": "A",
             "index": 0
         },
         {
             "color": "blue",
-            "label": "B",
+            "value": "B",
             "index": 1
         },
         {
             "color": "blue",
-            "label": "C",
+            "value": "C",
             "index": 2
         },
         {
             "color": "blue",
-            "label": "D",
+            "value": "D",
             "index": 3
+        }
+    ],
+    "edges": [
+        {
+            "begin": 0,
+            "end": 0,
+            "weight": 0
+        },
+        {
+            "begin": 1,
+            "end": 0,
+            "weight": 0
+        },
+        {
+            "begin": 2,
+            "end": 0,
+            "weight": 0
+        },
+        {
+            "begin": 0,
+            "end": 2,
+            "weight": 0
+        },
+        {
+            "begin": 1,
+            "end": 2,
+            "weight": 0
+        },
+        {
+            "begin": 2,
+            "end": 2,
+            "weight": 0
         }
     ]
 }
