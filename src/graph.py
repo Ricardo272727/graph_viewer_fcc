@@ -50,18 +50,10 @@ class Graph():
         return False
     
     def dijsktra(self, source):
-        dist = [sys.maxsize] * self.vertices
-        dist[source] = 0
-        visited = [False] * self.vertices
-        
-        for index in range(self.vertices):
-            
-            u = self.minDistance(dist, visited)
-            
-            
+        # implement me!
+        print('Implement me!')
             
         
-    
     def show(self):
         for row in self.matrix:
             print(row)
